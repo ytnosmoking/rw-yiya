@@ -5,6 +5,9 @@ class Auction extends Component {
     super(props);
     this.state = {};
   }
+  componentDidMount() {
+    console.log(1111);
+  }
   render() {
     return <div>this is Auction</div>;
   }

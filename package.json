@@ -45,11 +45,12 @@
       "react-app"
     ],
     "plugins": [
-      "syntax-dynamic-import"
+      "syntax-dynamic-import",
+      "dynamic-import-node"
     ]
   },
-
   "devDependencies": {
+    "babel-plugin-dynamic-import-node": "^2.3.0",
     "cssnano": "^4.1.10",
     "cssnano-preset-advanced": "^4.0.7",
     "customize-cra": "^0.9.1",

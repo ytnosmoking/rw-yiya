@@ -3,12 +3,14 @@ import { Icon } from "antd-mobile";
 
 import Loadable from "react-loadable";
 
-const loading = <Icon type="loading" spin></Icon>;
+function LoadMore() {
+  return <Icon type="loading"></Icon>;
+}
 
 export default name => {
   return Loadable({
     loader: () => import(`pages/${name}`),
-    loading,
+    loading: LoadMore,
     delay: 1000
   });
 };
@@ -16,7 +18,7 @@ export default name => {
 export const LoadComponent = name => {
   return Loadable({
     loader: () => import(`component/${name}`),
-    loading,
+    loading: LoadMore,
     delay: 1000
   });
 };

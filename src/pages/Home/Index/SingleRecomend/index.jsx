@@ -1,7 +1,7 @@
 import React from "react";
-import Title from "./Title";
+import Title from "../Title";
 import { Link } from "react-router-dom";
-import "./SingleRecomend.less";
+import "./index.less";
 const statusText = {
   0: "预展中",
   1: "预展中",

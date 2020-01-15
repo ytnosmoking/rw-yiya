@@ -1,7 +1,7 @@
 import React from "react";
-import Title from "./Title";
+import Title from "../Title";
 import { Link } from "react-router-dom";
-import "./ArtistLine.less";
+import "./index.less";
 
 export default (props = {}) => {
   const { title, recomend } = props;

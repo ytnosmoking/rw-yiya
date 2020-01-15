@@ -38,6 +38,25 @@ const customize = () => config => {
     }
   }
 
+  // splitchuks
+  const splitChunksConfig = config.optimization.splitChunks;
+  Object.assign(splitChunksConfig, {
+    chunks: 'all',
+    cacheGroups: {
+      vendors: {
+        test: /node_modules/,
+        name: 'vendors',
+        priority: -10,
+      },
+      common: {
+        name: 'common',
+        minChunks: 2,
+        minSize: 30000,
+        chunks: 'all'
+      }
+    }
+  })
+
   // style-resource-loader
   const loaders = config.module.rules.find(rule => Array.isArray(rule.oneOf)).oneOf
   loaders[loaders.length - 3].use.push({
@@ -100,7 +119,7 @@ const customize = () => config => {
 
 const resetPort = () => config => {
   console.log(` in  reset Port`)
-  console.log(config)
+  // console.log(config)
   // return config
   return config
   // throw new Error()

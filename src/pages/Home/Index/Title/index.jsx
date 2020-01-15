@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Title.less";
+import "./index.less";
 
 export default (props = {}) => {
   const { img, title, link } = props;

@@ -4,36 +4,26 @@ import { Route, Switch, Redirect } from "react-router-dom";
 // eslint-disable-next-line no-unused-vars
 import LoadAble from 'component/Loading'
 import NavBar from 'component/NavBar'
-import Home from 'pages/Home'
-import Auction from 'pages/Auction'
-import Mall from 'pages/Mall'
-import Score from 'pages/Score'
-import Mine from 'pages/Mine'
 const routes = [
   {
     path: "/home",
-    // view: LoadAble('Home')
-    view: Home
+    view: LoadAble('Home/Index')
   },
   {
     path: "/auction",
-    // view: LoadAble('Auction')
-    view: Auction
+    view: LoadAble('Auction')
   },
   {
     path: "/mall",
-    // view: LoadAble('Mall')
-    view: Mall
+    view: LoadAble('Mall')
   },
   {
     path: "/score",
-    // view: LoadAble('Score')
-    view: Score
+    view: LoadAble('Score')
   },
   {
     path: "/mine",
-    // view: LoadAble('Mine')
-    view: Mine
+    view: LoadAble('Mine')
   }
 ]
 
@@ -52,7 +42,7 @@ function App() {
 
           ></Route>
         ))}
-        <Redirect from="*" to="/home"></Redirect>
+        {/* <Redirect from="*" to="/home"></Redirect> */}
 
       </Switch>
       <NavBar />
