@@ -1,4 +1,5 @@
 import React from 'react';
+// eslint-disable-next-line no-unused-vars
 import { Route, Switch, Redirect } from "react-router-dom";
 
 // eslint-disable-next-line no-unused-vars
@@ -38,8 +39,6 @@ function App() {
             key={route.path}
             path={route.path}
             component={route.view}
-          // render={() => route.view}
-
           ></Route>
         ))}
         {/* <Redirect from="*" to="/home"></Redirect> */}
