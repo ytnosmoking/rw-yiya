@@ -1,11 +1,20 @@
 import React, { Component } from "react";
-import { Carousel, Tabs } from "antd-mobile";
+// eslint-disable-next-line no-unused-vars
+import { Sticky } from "react-sticky";
+import { Carousel, Tabs, ListView, Toast } from "antd-mobile";
+// eslint-disable-next-line no-unused-vars
 import { Link, Route } from "react-router-dom";
+// eslint-disable-next-line no-unused-vars
 import LoadAble from "component/Loading";
+// eslint-disable-next-line no-unused-vars
 import { dateTool } from "utils/tools";
+
 import NewsItem from "component/NewsItem";
 import "./index.less";
-
+import { newsInfo } from "./data";
+const dataSource = new ListView.DataSource({
+  rowHasChanged: (row1, row2) => row1 !== row2
+});
 const tabs = [
   {
     title: "展览"
@@ -14,98 +23,118 @@ const tabs = [
     title: "资讯"
   }
 ];
+
+const { banner, infos, shows } = newsInfo;
 class index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      banner: [
-        {
-          id: 15,
-          img: "https://images.yiya.art/banner/153.jpg",
-          places: "news",
-          url: "http://m.yiya.art/home/newdetail/5"
-        },
-        {
-          id: 16,
-          img:
-            "https://images.yiya.art/banner/b9f32d725d6640904ac15efe71719336.jpg",
-          places: "news",
-          url: "http://m.yiya.art/home/newdetail/4"
-        },
-        {
-          id: 17,
-          img:
-            "https://images.yiya.art/banner/9a78aeffd5067f23bc7dd976d6f36262.jpg",
-          places: "news",
-          url: "http://m.yiya.art/home/newdetail/6"
-        }
-      ],
-      infos: [
-        {
-          can_join: 0,
-          content: "this is contnet",
-          created_at: "2020-01-02 15:45:17",
-          id: 9,
-          img: "https://images.yiya.art/Information/何家英.jpg",
-          platform: "易雅艺术平台",
-          share_count: 2,
-          title: "何家英：孤独是艺术家最大的财富 | 易雅·美术人物志",
-          type: 1,
-          updated_at: "2020-01-16 15:07:30",
-          view_count: 45
-        }
-      ],
-      shows: [
-        {
-          can_join: 0,
-          content: "this is content",
-          created_at: "2020-01-03 19:01:13",
-          id: 12,
-          img:
-            "https://images.yiya.art/Information/d6c0e01af12ee64d0fdd95a08b66acd8.jpg",
-          platform: "易雅艺术平台",
-          share_count: 0,
-          title: "国家博物馆“屹立东方——馆藏经典美术作品展”火热展出！",
-          type: 2,
-          updated_at: "2020-01-16 18:30:59",
-          view_count: 19
-        }
-      ],
-      tabIndex: 0
+      banner,
+      infos,
+      shows,
+      dataSource: dataSource.cloneWithRows([]),
+      tabIndex: 0,
+      isLoading: false
     };
   }
   setTab = index => {
+    const { infos, shows } = this.state;
+    const data = index === 0 ? shows.data : infos.data;
     this.setState({
-      tabIndex: index
+      tabIndex: index,
+      dataSource: dataSource.cloneWithRows(data)
     });
   };
+  onEndReached = e => {
+    console.log("end");
+    const { infos, shows, tabIndex, isLoading } = this.state;
+    if (isLoading) {
+      return;
+    }
+
+    const defaultData = tabIndex === 0 ? shows : infos;
+    const { current_page, last_page } = defaultData;
+    // mock
+    this.setState(
+      preState => ({
+        shows: {
+          ...preState.shows,
+          data: [...preState.shows.data, ...preState.infos.data]
+        }
+      }),
+      () => {
+        const data = tabIndex === 0 ? shows.data : infos.data;
+        this.setState({
+          dataSource: dataSource.cloneWithRows(data)
+        });
+      }
+    );
+    if (current_page < last_page) {
+      // 加载数据去
+    }
+    Toast.info("没有更多数据了");
+    setTimeout(() => {
+      Toast.hide();
+    }, 1000);
+  };
   componentDidMount() {
-    console.log(`00000---------------`);
+    const { shows } = this.state;
+    const data = shows.data;
+    this.setState({
+      dataSource: dataSource.cloneWithRows(data)
+    });
+    console.log(this.refs.news);
+    const dom = this.refs.news;
+    dom.addEventListener(
+      "touchmove",
+      function(e) {
+        // e.preventDefault();
+        e.stopPropagation();
+      },
+      {
+        passive: false //  禁止 passive 效果
+      }
+    );
   }
-  render() {
-    const { tabIndex, banner, shows, infos } = this.state;
-    const lists = tabIndex === 0 ? shows : infos;
+  renderRow = (list, href) => {
     return (
-      <div className="news">
+      <Link to={`${href}/${list.id}`} className="newsItem">
+        <NewsItem list={list} />
+      </Link>
+    );
+  };
+  render() {
+    const { banner, dataSource } = this.state;
+    return (
+      <div className="news" ref="news">
         {/* banner */}
+
         <Carousel autoplay infinite autoplayInterval={4000}>
           {banner.map(val => (
             <Link
               key={val.id}
               to={"/home/news/" + val.url.split("/").reverse()[0]}
               className="banner"
+              onTouchMove={e => {
+                console.log(e);
+                e.preventDefault();
+                e.stopPropagation();
+              }}
             >
               <img
                 src={val.img}
                 alt=""
-                style={{ width: "100%", height: "100%", verticalAlign: "top" }}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  verticalAlign: "top"
+                }}
               />
             </Link>
           ))}
         </Carousel>
 
-        {/* banner */}
-        <div style={{ minHeight: 0, maxHeight: "auto" }}>
+        <div style={{ height: "auto" }}>
           <Tabs
             tabs={tabs}
             tabBarBackgroundColor="none"
@@ -120,13 +149,29 @@ class index extends Component {
               this.setTab(index);
             }}
           >
-            <div className="listCont">
-              {lists.map(list => (
-                <NewsItem key={list.id} list={list} href={"/home/news"} />
-              ))}
-            </div>
+            <ListView
+              ref={el => (this.lv = el)}
+              dataSource={dataSource}
+              renderRow={list => {
+                return (
+                  <Link
+                    to={`/home/news/${list.id}`}
+                    key={list.id}
+                    className="newsItem"
+                  >
+                    <NewsItem list={list} />
+                  </Link>
+                );
+              }}
+              className="listView"
+              pageSize={5}
+              scrollRenderAheadDistance={100}
+              onEndReached={this.onEndReached}
+              onEndReachedThreshold={10}
+            />
           </Tabs>
         </div>
+
         <Route
           exact
           path="/home/news/:id"

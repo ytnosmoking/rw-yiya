@@ -41,7 +41,7 @@ function App() {
             component={route.view}
           ></Route>
         ))}
-        {/* <Redirect from="*" to="/home"></Redirect> */}
+        <Redirect from="*" to="/home"></Redirect>
 
       </Switch>
       <NavBar />

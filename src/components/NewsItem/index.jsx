@@ -1,12 +1,18 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import "./index.less";
 
 import { dateTool } from "utils/tools";
 export default ({ list, href }) => {
   return (
-    <Link key={list.id} to={`${href}/${list.id}`} className="newsItem">
-      <img src={list.img} alt="" />
+    <div className="newsItem">
+      {/* <Link key={list.id} to={`${href}/${list.id}`} className="newsItem"> */}
+
+      {list.img ? (
+        <div className="news-img">
+          <img src={list.img} alt="" />
+        </div>
+      ) : null}
       <h6 className="title">{list.title}</h6>
       {list.start ? (
         <p>
@@ -29,6 +35,7 @@ export default ({ list, href }) => {
           </span>
         </dd>
       </dl>
-    </Link>
+      {/* </Link> */}
+    </div>
   );
 };

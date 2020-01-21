@@ -1,0 +1,53 @@
+.msgs {
+  display: flex;
+  align-items: center;
+  padding: 0 34px;
+  height: 88px;
+  background-color: #fff;
+
+  &-icon {
+    width: 134px;
+    height: 64px;
+
+    &.active {
+      height: 48px;
+      width: 48px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .msgs-list {
+    flex: 1;
+    padding: 0 24px;
+
+  }
+
+  .more {
+    padding-left: 16px;
+    border-left: 2px solid #d12e2e;
+    color: #d12e2e;
+  }
+}
+
+
+.sub-title {
+  background-color: #fff;
+  padding: 32px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .title {
+    padding-left: 20px;
+    font-weight: bold;
+    border-left: 8px solid @theme_color;
+  }
+
+  .desc {
+    color: @black_gray;
+  }
+}

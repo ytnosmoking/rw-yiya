@@ -1,47 +1,44 @@
 import React, { Component } from "react";
-import { Carousel, Grid, WhiteSpace } from "antd-mobile";
+import { WhiteSpace } from "antd-mobile";
 import { Link, Route } from "react-router-dom";
 import ArtistLine from "./ArtistLine";
 import SingleRecomend from "./SingleRecomend";
 import AuctionView from "./Auction";
 import BottomCode from "component/BottomCode";
 import LoadAble from "component/Loading";
+import { ImageBanner } from "component/Banner";
+import { GridLink } from "component/Grid";
+import { BottomBord, MsgList } from "component/Common";
 import "./index.less";
-import { gridLinks, msgsList, recomend, singleList, auctionList } from "./data";
+import {
+  carousel,
+  gridLinks,
+  msgsList,
+  recomend,
+  singleList,
+  auctionList
+} from "./data";
 
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: ["1", "2", "3"]
+      carousel
     };
   }
   componentDidMount() {
-    setTimeout(() => {
-      this.setState({
-        data: [
-          "AiyWuByWklrrUDlFignR",
-          "TekJlZRVCjLFexlOCuWn",
-          "IJOtIlfsYdTyaDTRVrLI"
-        ]
-      });
-    }, 100);
+    console.log(this.props);
   }
   render() {
+    const {
+      location: { pathname }
+    } = this.props;
+    const isHome = pathname === "/home";
+    const { carousel } = this.state;
     return (
-      <div>
+      <div className="home" style={{ overflow: isHome ? "auto" : "hidden" }}>
         {/* banner */}
-        <Carousel autoplay infinite autoplayInterval={4000}>
-          {this.state.data.map(val => (
-            <a key={val} href="http://www.alipay.com" className="banner">
-              <img
-                src={`https://zos.alipayobjects.com/rmsportal/${val}.png`}
-                alt=""
-                style={{ width: "100%", height: "100%", verticalAlign: "top" }}
-              />
-            </a>
-          ))}
-        </Carousel>
+        <ImageBanner list={carousel} />
 
         {/* ad */}
         <Link to="/home/check-in" className="ad">
@@ -49,13 +46,10 @@ class Home extends Component {
         </Link>
 
         {/* Grid */}
-        <Grid
-          data={gridLinks}
-          hasLine={false}
-          className="grid"
-          activeStyle={false}
+        <GridLink
+          list={gridLinks}
           renderItem={link => (
-            <Link to={link.link}>
+            <Link to={link.link} className="home-grid">
               <div className="grid-icon">
                 <img src={link.icon} alt="" />
               </div>
@@ -65,39 +59,14 @@ class Home extends Component {
             </Link>
           )}
         />
+        <BottomBord />
         {/* scroll Msgs */}
-        <div className="msgs">
-          <div className="msgs-icon">
-            <img src={require("./img/headline.png")} alt="" />
-          </div>
-          <Carousel
-            className="msgs-list"
-            vertical
-            dots={false}
-            dragging={false}
-            swiping={false}
-            autoplay={true}
-            infinite
-            speed={300}
-            autoplayInterval={2000}
-            resetAutoplay={false}
-          >
-            {msgsList.map((item, index) => (
-              <div key={index}>
-                {item.content && item.show === 1 ? (
-                  <Link className="msg" to={`/home/toplinedetail/${item.id}`}>
-                    {item.title}
-                  </Link>
-                ) : (
-                  <p>{item.title}</p>
-                )}
-              </div>
-            ))}
-          </Carousel>
-          <Link className="more" to="/home/news">
-            更多
-          </Link>
-        </div>
+        <MsgList
+          icon={require("./img/headline.png")}
+          list={msgsList}
+          link={"/home/news"}
+        />
+        <BottomBord />
 
         {/* artist online */}
         <ArtistLine
@@ -108,6 +77,7 @@ class Home extends Component {
           }}
           recomend={recomend}
         />
+        <BottomBord />
 
         {/* single recomend */}
         <SingleRecomend
@@ -116,8 +86,9 @@ class Home extends Component {
             title: "单品推荐",
             link: "/home/single-recommend"
           }}
-          recomend={singleList}
+          recomend={singleList.slice(0, 2)}
         />
+        <BottomBord />
         {/* auction */}
         <AuctionView
           title={{
@@ -131,9 +102,14 @@ class Home extends Component {
         <WhiteSpace />
         {/* BottomCode */}
         <BottomCode />
-
         {/* 子路由信息 */}
         <Route path="/home/news" component={LoadAble("Home/News")} />
+        <Route exact path="/home/free" component={LoadAble("Home/Free")} />
+        {/* <Route
+          exact
+          path="/home/news/:id"
+          component={LoadAble("Home/News/Detail")}
+        /> */}
       </div>
     );
   }

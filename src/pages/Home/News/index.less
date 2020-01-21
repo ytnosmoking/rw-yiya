@@ -1,13 +1,26 @@
 .news {
   .baseWrap();
+  overflow: hidden;
+  // position: fixed;
+
+  touch-action: none;
 
   .banner {
     display: block;
     height: 350px;
+
   }
 
   .listCont {
     padding-top: 24px;
+  }
 
+  .listView {
+    height: calc(100vh - 350px - 176px);
+    overflow: auto;
+  }
+
+  .newsItem {
+    .infos_item();
   }
 }

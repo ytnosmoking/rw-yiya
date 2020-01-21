@@ -1,0 +1,75 @@
+.banner {
+  display: block;
+  height: 350px;
+}
+
+.msgbanner {
+
+  p,
+  a {
+    .no-wrap()
+  }
+}
+
+.mall-banner {
+  height: 565px;
+  width: 100%;
+  overflow: hidden;
+  padding-bottom: 32px;
+  background-color: #fff;
+
+  .loop-item {
+    display: block;
+    overflow: hidden;
+
+    .item {
+      width: 280px;
+      box-sizing: border-box;
+      margin: 0 auto;
+      margin-top: 58px;
+      border: 6px solid #AE895B;
+      transition: all 0.3s ease;
+
+      .avatar {
+        display: block;
+        width: 116px;
+        height: 116px;
+        margin: 0 auto;
+        margin-top: -58px;
+        border-radius: 50%;
+        overflow: hidden;
+      }
+
+      .poster {
+        display: block;
+        margin: 0 auto;
+        padding-top: 24px;
+        width: 232px;
+        height: 232px;
+      }
+
+      img {
+        .hundred()
+      }
+
+      &>h4 {
+        margin-top: 24px;
+        margin-bottom: 14px;
+        text-align: center;
+        font-size: 32px;
+        color: #333131;
+      }
+
+      &>p {
+        margin-bottom: 18px;
+        text-align: center;
+        font-size: 24px;
+        color: #666;
+      }
+    }
+  }
+
+  .slider-decorator-0 {
+    bottom: -60px !important;
+  }
+}
